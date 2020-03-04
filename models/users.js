@@ -19,7 +19,16 @@ var Users = new Schema({
   admin: {
     type: Boolean,
     default: false
+  },
+  created: {
+    type: Date,
+    default: Date.now
+  },
+  modified: {
+    type: Date,
+    default: Date.now
   }
+
 });
 
 //Add unique validation properties to the model
