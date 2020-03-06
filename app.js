@@ -74,6 +74,54 @@ app.use(function(req,res,next){
   res.locals.session = req.session;
   next();
 });
+
+//Session-based access control
+app.use(function(req,res,next){
+  //Uncomment the following line to allow access to everything.
+  //return next();
+
+  //Allow any endpoint that is an exact match. The server does not
+  //have access to the hash so /auth and /auth#xxx would bot be considered 
+  //exact matches.
+  var whitelist = [
+    '/',
+    '/auth'
+  ];
+
+  //req.url holds the current URL
+  //indexOf() returns the index of the matching array element
+  //-1, in this context means not found in the array
+  //so if NOT -1 means is found in the whitelist
+  //return next(); stops execution and grants access
+  if(whitelist.indexOf(req.url) !== -1){
+    return next();
+  }
+
+  //Allow access to dynamic endpoints
+  var subs = [
+    '/public/',
+    '/api/auth/'
+  ];
+
+  //The query string provides a partial URL match beginning
+  //at position 0. Both /api/auth/login and /api/auth/logout would would 
+  //be considered a match for /api/auth/
+  for(var sub of subs){
+    if(req.url.substring(0, sub.length)===sub){
+      return next();
+    }
+  }
+
+  //There is an active user session, allow access to all endpoints.
+  if(req.isAuthenticated()){
+    return next();
+  }
+
+  //There is no session nor are there any whitelist matches. Deny access and
+  //Redirect the user to the login screen.
+  return res.redirect('/auth#login');
+});
+
 app.use('/auth', authRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
