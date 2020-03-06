@@ -49,7 +49,12 @@ var authApp = (function() {
           xhr.send(JSON.stringify(object));
           xhr.onload = function(){
             let data = JSON.parse(xhr.response);
-            console.log(data);
+            // console.log(data);
+            if(data.success===true){
+                window.location.href = '/';
+              }else{
+                document.getElementById('formMsg').style.display='block';
+              }            
           }
         });
       }
