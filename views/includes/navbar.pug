@@ -1,8 +1,8 @@
-// Header/Navigation
+//-Header/Navigation
 nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
   .container
     a.navbar-brand(href='#') 
-      // Use Font Awesome for a generic logo
+      //-Use Font Awesome for a generic logo
       i.fas.fa-asterisk
       |&nbsp;MY API
     button.navbar-toggler(
@@ -20,13 +20,19 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
           a.nav-link(href='/')
             | Home 
             span.sr-only (current)
-        if !session.passport
+        //-if !session.passport.user
+        //- if showLogin
+        if !session.passport    
           li.nav-item
             a.nav-link(href='/auth#register') Register
+          li.nav-item
+            a.nav-link(href='/articles/') Articles
           li.nav-item
             a.nav-link(href='/auth#login') Login
         else
           li.nav-item
             a.nav-link(href='/users/app') Users
+          li.nav-item
+            a.nav-link(href='/articles/app') Articles
           li.nav-item
             a.nav-link(href='/auth/logout') Logout

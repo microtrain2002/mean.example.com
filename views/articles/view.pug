@@ -1,0 +1,14 @@
+extends ../layout
+block content
+  article
+    h1= article.title
+    hr
+    div
+      - var date = new Date(article.created).toISOString().slice(0, 19).replace('T', ' ');
+      small Posted: #{date}
+    div!= article.body
+    hr
+
+    a.button(href='/articles' onclick='viewIndex()') All Articles
+
+  script(src='/dist/js/articles.app.min.js')
